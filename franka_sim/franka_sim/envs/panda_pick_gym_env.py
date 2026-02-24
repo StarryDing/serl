@@ -137,8 +137,6 @@ class PandaPickCubeGymEnv(MujocoGymEnv):
             dtype=np.float32,
         )
 
-        # NOTE: gymnasium is used here since MujocoRenderer is not available in gym. It
-        # is possible to add a similar viewer feature with gym, but that can be a future TODO
         from gymnasium.envs.mujoco.mujoco_rendering import MujocoRenderer
 
         self._viewer = MujocoRenderer(
@@ -226,8 +224,9 @@ class PandaPickCubeGymEnv(MujocoGymEnv):
     def render(self):
         rendered_frames = []
         for cam_id in self.camera_id:
+            self._viewer.camera_id = cam_id
             rendered_frames.append(
-                self._viewer.render(render_mode="rgb_array", camera_id=cam_id)
+                self._viewer.render(render_mode="rgb_array")
             )
         return rendered_frames
 
